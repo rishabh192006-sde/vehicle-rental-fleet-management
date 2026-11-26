@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | DriveEase</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('driveease_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            } catch(e) {}
+        })();
+    </script>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container nav-wrap">
+
+            <a class="brand" href="index.html">
+                <span class="brand-mark">D</span> DriveEase
+            </a>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="vehicles.html">Vehicles</a>
+                <a href="booking.html">Booking</a>
+                <a href="profile.html">Profile</a>
+                <a class="active" href="contact.html">Contact</a>
+            </nav>
+
+            <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+
+            <a class="btn btn-primary btn-small" id="navAuthBtn" href="login.html">
+                Login
+            </a>
+
+        </div>
+    </header>
+
+    <main>
+
+        <section class="page-banner">
+            <div class="container">
+
+                <p class="eyebrow">CONTACT & INFORMATION</p>
+
+                <h1>How can we help?</h1>
+
+                <p>
+                    Reach out to our support team anytime and we'll be happy to assist you.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="section">
+
+            <div class="container contact-grid">
+
+                <div>
+
+                    <h2>Rental support</h2>
+
+                    <p class="muted">
+                        Use this form for questions about vehicles, bookings, rental information or fleet services.
+                    </p>
+
+                    <div class="contact-item">
+                        <b>✉ Email</b>
+                        <span>support@driveease.demo</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <b>☎ Phone</b>
+                        <span>+91 90000 00000</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <b>⌖ Office</b>
+                        <span>Mathura, Uttar Pradesh</span>
+                    </div>
+
+                </div>
+
+                <form class="form-card" id="contactForm" data-success="Thanks! Your message has been sent. We will reply soon.">
+
+                    <label>
+                        Name
+                        <input type="text" name="name" data-validate="name" placeholder="Your name">
+                    </label>
+
+                    <label>
+                        Email
+                        <input type="email" name="email" data-validate="email" placeholder="you@example.com">
+                    </label>
+
+                    <label>
+                        Message
+                        <textarea name="message" data-validate="message" placeholder="Write your message"></textarea>
+                    </label>
+
+                    <button class="btn btn-primary full" type="submit">
+                        Send message
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+
+        <div class="container footer-bottom">
+            © 2026 DriveEase
+        </div>
+
+    </footer>
+
+<script src="data.js"></script>
+<script src="validate.js"></script>
+<script>
+    (function() {
+        var form = document.getElementById('contactForm');
+        if (form) {
+            form.addEventListener('form:valid', function(e) {
+                var name    = form.querySelector('[name="name"]').value.trim();
+                var email   = form.querySelector('[name="email"]').value.trim();
+                var message = form.querySelector('[name="message"]').value.trim();
+                
+                if (window.DriveEase && window.DriveEase.MessageStore) {
+                    window.DriveEase.MessageStore.add({ name: name, email: email, message: message });
+                } else {
+                    try {
+                        var msgs = JSON.parse(localStorage.getItem('driveease_messages') || '[]');
+                        msgs.unshift({ name: name, email: email, message: message, date: new Date().toISOString(), read: false });
+                        localStorage.setItem('driveease_messages', JSON.stringify(msgs));
+                    } catch(err) {}
+                }
+            });
+        }
+    })();
+</script>
+</body>
+
+</html>

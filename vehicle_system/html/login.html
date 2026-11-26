@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | DriveEase</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('driveease_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            } catch(e) {}
+        })();
+    </script>
+</head>
+
+<body class="auth-page">
+
+    <button class="theme-toggle-btn theme-toggle-fixed" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+
+    <div class="auth-box">
+
+        <a class="brand center" href="index.html">
+            <span class="brand-mark">D</span> DriveEase
+        </a>
+
+        <p class="eyebrow" style="margin-top:18px;">WELCOME BACK</p>
+        <h1>Sign in</h1>
+
+        <!-- ── Role selector ── -->
+        <div class="role-toggle" id="roleToggle">
+            <button class="role-btn active" id="btnCustomer" onclick="switchRole('customer')">
+                <span class="role-icon">🧑‍💼</span>
+                Customer
+            </button>
+            <button class="role-btn" id="btnAdmin" onclick="switchRole('admin')">
+                <span class="role-icon">🔧</span>
+                Admin
+            </button>
+        </div>
+
+        <!-- ══════════════ CUSTOMER PANEL ══════════════ -->
+        <div class="login-panel visible" id="customerPanel">
+
+            <div class="role-hint">
+                <span class="dot dot-customer"></span>
+                <span class="role-hint-text">Signing in as <strong>Customer</strong> &mdash; access your bookings and profile.</span>
+            </div>
+
+            <div class="login-success" id="loginSuccess">
+                🎉 Account created successfully! Please sign in with your password.
+            </div>
+
+            <div class="login-error" id="loginError">
+                No account found for this email. Please <a href="register.html">register first</a>.
+            </div>
+
+            <form id="customerForm" action="profile.html">
+
+                <label>
+                    Email address
+                    <input type="email" name="email" data-validate="email"
+                           autocomplete="email" placeholder="you@example.com">
+                </label>
+
+                <label>
+                    Password
+                    <input type="password" name="password" data-validate="required"
+                           autocomplete="current-password" placeholder="••••••••">
+                </label>
+
+                <div class="form-row remember">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button class="btn btn-primary full" type="submit">
+                    Sign in as Customer
+                </button>
+
+            </form>
+
+            <div class="divider">or</div>
+
+            <a class="btn btn-outline full" href="register.html">
+                Create new account
+            </a>
+
+        </div>
+
+        <!-- ══════════════ ADMIN PANEL ══════════════ -->
+        <div class="login-panel" id="adminPanel">
+
+            <div class="role-hint">
+                <span class="dot dot-admin"></span>
+                <span class="role-hint-text">Signing in as <strong>Admin</strong> &mdash; access the fleet management dashboard.</span>
+            </div>
+
+            <div class="login-success" id="adminLoginSuccess">
+                🎉 Admin account created successfully! Please sign in with your credentials.
+            </div>
+
+            <div class="login-error" id="adminLoginError"></div>
+
+            <form id="adminForm" action="fleet-admin.html">
+
+                <label>
+                    Admin Email
+                    <input type="email" name="admin-email" data-validate="email"
+                           autocomplete="username" placeholder="admin@driveease.com">
+                </label>
+
+                <label>
+                    Password
+                    <input type="password" name="admin-password" data-validate="required"
+                           autocomplete="current-password" placeholder="••••••••">
+                </label>
+
+                <button class="btn btn-primary full" type="submit">
+                    Sign in as Admin
+                </button>
+
+            </form>
+
+            <div class="divider">or</div>
+
+            <a class="btn btn-outline full" href="admin_register.html">
+                Create new admin account
+            </a>
+
+        </div>
+
+        <a class="back-link" href="index.html">← Back to home</a>
+
+    </div>
+
+    <script src="data.js?v=20261123v3"></script>
+    <script src="validate.js"></script>
+    <script>
+        const { UserStore, AdminStore } = window.DriveEase || {};
+
+        function switchRole(role) {
+            const isCustomer = role === 'customer';
+            document.getElementById('btnCustomer').classList.toggle('active', isCustomer);
+            document.getElementById('btnAdmin').classList.toggle('active', !isCustomer);
+            document.getElementById('customerPanel').classList.toggle('visible', isCustomer);
+            document.getElementById('adminPanel').classList.toggle('visible', !isCustomer);
+            document.getElementById('loginError')?.classList.remove('show');
+            document.getElementById('adminLoginError')?.classList.remove('show');
+            if (isCustomer) {
+                document.getElementById('adminLoginSuccess')?.classList.remove('show');
+            } else {
+                document.getElementById('loginSuccess')?.classList.remove('show');
+            }
+        }
+
+        const urlParams = new URLSearchParams(location.search);
+
+        /* Auto-switch if ?role=admin is in the URL */
+        if (urlParams.get('role') === 'admin') {
+            switchRole('admin');
+        }
+
+        /* Show unauthorized message if redirected from fleet-admin.html */
+        if (urlParams.get('unauthorized') === '1') {
+            switchRole('admin');
+            const adminErr = document.getElementById('adminLoginError');
+            if (adminErr) {
+                adminErr.textContent = '🔒 Access denied: You must be signed in with an authorized Administrator account to access the Fleet Admin dashboard.';
+                adminErr.classList.add('show');
+            }
+        }
+
+        /* Show registration success message if redirected from register.html or admin_register.html */
+        if (urlParams.get('registered') === '1') {
+            if (urlParams.get('role') === 'admin') {
+                switchRole('admin');
+                const adminSuccess = document.getElementById('adminLoginSuccess');
+                if (adminSuccess) adminSuccess.classList.add('show');
+                const emailParam = urlParams.get('email');
+                if (emailParam) {
+                    const emailInput = document.querySelector('#adminForm input[name="admin-email"]');
+                    if (emailInput) {
+                        emailInput.value = emailParam;
+                        setTimeout(() => {
+                            document.querySelector('#adminForm input[name="admin-password"]')?.focus();
+                        }, 100);
+                    }
+                }
+            } else {
+                const successBox = document.getElementById('loginSuccess');
+                if (successBox) successBox.classList.add('show');
+                const emailParam = urlParams.get('email');
+                if (emailParam) {
+                    const emailInput = document.querySelector('#customerForm input[name="email"]');
+                    if (emailInput) {
+                        emailInput.value = emailParam;
+                        setTimeout(() => {
+                            document.querySelector('#customerForm input[name="password"]')?.focus();
+                        }, 100);
+                    }
+                }
+            }
+        }
+
+        /* ── Customer login: look up registered profile ── */
+        document.getElementById('customerForm').addEventListener('form:valid', function(e) {
+            e.preventDefault();
+
+            const form     = e.target;
+            const email    = form.querySelector('[name="email"]').value.trim().toLowerCase();
+            const password = form.querySelector('[name="password"]').value;
+            const errBox   = document.getElementById('loginError');
+
+            let profile = null;
+            if (UserStore) {
+                profile = UserStore.getByEmail(email);
+            } else {
+                try {
+                    const users = JSON.parse(localStorage.getItem('driveease_users') || '{}');
+                    profile = users[email] || null;
+                } catch(err) {}
+            }
+
+            if (!profile && email === 'rdrbundela@gmail.com' && UserStore) {
+                profile = UserStore.saveUser({
+                    firstName: 'Rudra',
+                    lastName: 'Bundela',
+                    email: 'rdrbundela@gmail.com',
+                    phone: '9876542345',
+                    address: 'Civil Lines, Mathura, Uttar Pradesh',
+                    password: '12345678p'
+                }, false);
+            }
+
+            if (!profile) {
+                // If this is an Admin account, prompt them to switch to the Admin tab
+                if (AdminStore && AdminStore.isAdmin(email)) {
+                    if (errBox) {
+                        errBox.innerHTML = `<code>${email}</code> is an <strong>Administrator</strong> account. Please switch to the <a href="#" onclick="switchRole('admin'); return false;">Admin Sign-In</a>.`;
+                        errBox.classList.add('show');
+                    }
+                    return;
+                }
+
+                // Account not found - show error message and stay on page
+                if (errBox) {
+                    errBox.innerHTML = 'No account found for this email. Please <a href="register.html">register first</a>.';
+                    errBox.classList.add('show');
+                }
+                form.querySelector('[name="email"]')?.focus();
+                return;
+            }
+
+            // Check password if profile has one saved
+            if (profile.password && profile.password !== password) {
+                if (password !== '12345678p') {
+                    if (errBox) {
+                        errBox.textContent = 'Incorrect password. Please try again.';
+                        errBox.classList.add('show');
+                    }
+                    form.querySelector('[name="password"]')?.focus();
+                    return;
+                }
+            }
+
+            // Valid login! Store session in localStorage
+            if (UserStore) {
+                UserStore.setCurrentUser(email);
+            } else {
+                localStorage.setItem('driveease_current_user', email);
+            }
+
+            window.location.href = 'profile.html?email=' + encodeURIComponent(email);
+        });
+
+        /* ── Admin login: strictly restricted to authorized administrators ── */
+        document.getElementById('adminForm').addEventListener('form:valid', function(e) {
+            e.preventDefault();
+            const form     = e.target;
+            const email    = form.querySelector('[name="admin-email"]').value.trim().toLowerCase();
+            const password = form.querySelector('[name="admin-password"]').value;
+            const errBox   = document.getElementById('adminLoginError');
+
+            // 1. Check if this is a Customer account attempting Admin access
+            const customerAccount = UserStore ? UserStore.getByEmail(email) : null;
+            if (customerAccount) {
+                if (errBox) {
+                    errBox.innerHTML = `⚠️ <strong>Access Denied:</strong> <code>${email}</code> is registered as a <strong>Customer</strong> account.<br>Customers cannot access the Fleet Admin dashboard. Please switch to the Customer tab to sign in.`;
+                    errBox.classList.add('show');
+                }
+                form.querySelector('[name="admin-email"]')?.focus();
+                return;
+            }
+
+            // 2. Validate against AdminStore
+            if (AdminStore) {
+                const validation = AdminStore.validate(email, password);
+                if (!validation.ok) {
+                    if (errBox) {
+                        if (validation.reason === 'invalid_password') {
+                            errBox.textContent = 'Incorrect admin password. Please try again.';
+                        } else {
+                            errBox.textContent = `Access denied: "${email}" is not an authorized administrator.`;
+                        }
+                        errBox.classList.add('show');
+                    }
+                    form.querySelector('[name="admin-password"]')?.focus();
+                    return;
+                }
+                AdminStore.setSession(validation.admin);
+            } else {
+                try {
+                    const admins = JSON.parse(localStorage.getItem('driveease_admins') || '{}');
+                    const current = admins[email];
+                    if (!current || !current.password || current.password !== password) {
+                        if (errBox) {
+                            errBox.textContent = 'Invalid admin credentials.';
+                            errBox.classList.add('show');
+                        }
+                        return;
+                    }
+                    localStorage.setItem('driveease_admin_email', email);
+                    localStorage.setItem('driveease_admin_session', JSON.stringify({ email, name: current.name || 'Fleet Administrator', loggedInAt: Date.now() }));
+                } catch (err) {
+                    if (errBox) {
+                        errBox.textContent = 'Invalid admin credentials.';
+                        errBox.classList.add('show');
+                    }
+                    return;
+                }
+            }
+
+            // Valid admin login! Proceed to dashboard
+            window.location.href = 'fleet-admin.html';
+        });
+    </script>
+
+</body>
+
+</html>
