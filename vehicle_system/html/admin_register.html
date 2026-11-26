@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration | DriveEase</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('driveease_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            } catch(e) {}
+        })();
+    </script>
+</head>
+
+<body class="auth-page">
+
+    <button class="theme-toggle-btn theme-toggle-fixed" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+
+    <div class="auth-box">
+
+        <a class="brand center" href="index.html">
+            <span class="brand-mark">D</span> DriveEase
+        </a>
+
+        <p class="eyebrow">ADMINISTRATOR PORTAL</p>
+
+        <h1>Admin Registration</h1>
+        <p class="muted" style="margin-top:-4px;margin-bottom:18px;font-size:0.875rem;">
+            Create an administrator account to manage fleet vehicles, bookings, drivers, and reports.
+        </p>
+
+        <div class="login-error" id="adminRegError"></div>
+
+        <form id="adminRegisterForm" action="login.html?role=admin">
+
+            <label>
+                Full Name
+                <input type="text" name="name" data-validate="name" autocomplete="name" placeholder="Enter admin full name">
+            </label>
+
+            <label>
+                Email Address
+                <input type="email" name="email" data-validate="email" autocomplete="email" placeholder="admin@example.com">
+            </label>
+
+            <label>
+                Password
+                <input type="password" name="password" id="adminRegPassword" data-validate="password" autocomplete="new-password" placeholder="Create a strong password">
+            </label>
+
+            <label>
+                Confirm Password
+                <input type="password" name="confirm-password" id="adminRegConfirmPassword" data-validate="required" autocomplete="off" placeholder="Re-enter password">
+            </label>
+            <div class="confirm-error" id="adminRegConfirmError">⚠ Passwords do not match.</div>
+
+            <button class="btn btn-primary full" type="submit" style="margin-top:14px;">
+                Register as Admin
+            </button>
+
+        </form>
+
+        <p class="center muted" style="margin-top:20px;">
+            Already registered?
+            <a href="login.html?role=admin">Sign in</a>
+        </p>
+
+        <a class="back-link" href="index.html">← Back to home</a>
+
+    </div>
+
+    <script src="data.js"></script>
+    <script src="validate.js"></script>
+    <script>
+        const { UserStore, AdminStore } = window.DriveEase || {};
+
+        const regForm      = document.getElementById('adminRegisterForm');
+        const pwdInput     = document.getElementById('adminRegPassword');
+        const confirmInput = document.getElementById('adminRegConfirmPassword');
+        const confirmError = document.getElementById('adminRegConfirmError');
+        const formError    = document.getElementById('adminRegError');
+
+        /* Live matching validation for confirm password field */
+        confirmInput.addEventListener('input', () => {
+            if (confirmInput.value && pwdInput.value !== confirmInput.value) {
+                confirmError.classList.add('show');
+            } else {
+                confirmError.classList.remove('show');
+            }
+        });
+
+        pwdInput.addEventListener('input', () => {
+            if (confirmInput.value) {
+                if (pwdInput.value !== confirmInput.value) {
+                    confirmError.classList.add('show');
+                } else {
+                    confirmError.classList.remove('show');
+                }
+            }
+        });
+
+        /* Handle validated form submission */
+        regForm.addEventListener('form:valid', function(e) {
+            e.preventDefault();
+
+            formError.classList.remove('show');
+            formError.textContent = '';
+
+            const pwd     = pwdInput.value;
+            const confirm = confirmInput.value;
+
+            /* 1. Passwords must match */
+            if (pwd !== confirm) {
+                confirmError.classList.add('show');
+                confirmInput.focus();
+                return;
+            }
+            confirmError.classList.remove('show');
+
+            const name    = regForm.querySelector('[name="name"]').value.trim();
+            const email   = regForm.querySelector('[name="email"]').value.trim().toLowerCase();
+
+            /* 2. Check if this email is already registered as a Customer */
+            if (UserStore && UserStore.getByEmail(email)) {
+                formError.innerHTML = `⚠️ <code>${email}</code> is already registered as a <strong>Customer</strong> account.<br>Please use a separate administrator email, or <a href="login.html">sign in as customer</a>.`;
+                formError.classList.add('show');
+                regForm.querySelector('[name="email"]')?.focus();
+                return;
+            }
+
+            /* 3. Check if email is already an existing Admin */
+            if (AdminStore && AdminStore.isAdmin(email)) {
+                formError.innerHTML = `An administrator account with <code>${email}</code> already exists.<br>Please <a href="login.html?role=admin&email=${encodeURIComponent(email)}">sign in here</a>.`;
+                formError.classList.add('show');
+                regForm.querySelector('[name="email"]')?.focus();
+                return;
+            }
+
+            /* 4. Register new Admin without directly logging in */
+            if (AdminStore) {
+                const res = AdminStore.registerAdmin({ name, email, password: pwd });
+                if (!res.ok) {
+                    formError.textContent = res.message || 'Unable to register admin account.';
+                    formError.classList.add('show');
+                    return;
+                }
+            } else {
+                try {
+                    const admins = JSON.parse(localStorage.getItem('driveease_admins') || '{}');
+                    admins[email] = {
+                        name,
+                        email,
+                        password: pwd,
+                        role: 'admin',
+                        createdAt: Date.now()
+                    };
+                    localStorage.setItem('driveease_admins', JSON.stringify(admins));
+                } catch (err) {
+                    formError.textContent = 'Failed to save admin account in local storage.';
+                    formError.classList.add('show');
+                    return;
+                }
+            }
+
+            /* Explicitly do NOT set admin session: redirect to admin login page to authenticate */
+            const targetUrl = 'login.html?role=admin&registered=1&email=' + encodeURIComponent(email);
+            window.location.href = targetUrl;
+        });
+    </script>
+
+</body>
+
+</html>
