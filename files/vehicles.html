@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicles | DriveEase</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('driveease_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            } catch(e) {}
+        })();
+    </script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+
+        <div class="container nav-wrap">
+
+            <a class="brand" href="index.html">
+                <span class="brand-mark">D</span>
+                DriveEase
+            </a>
+
+            <nav class="nav">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a class="active" href="vehicles.html">
+                    Vehicles
+                </a>
+
+                <a href="booking.html">
+                    Booking
+                </a>
+
+                <a href="profile.html">
+                    Profile
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </nav>
+
+            <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+
+            <a class="btn btn-primary btn-small" id="navAuthBtn" href="login.html">
+                Login
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+        <!-- PAGE INTRO -->
+        <section class="section">
+
+            <div class="container">
+
+                <p class="eyebrow">
+                    OUR FLEET
+                </p>
+
+                <h1>
+                    Choose your vehicle
+                </h1>
+
+                <p class="lead">
+                    Select from our available two wheelers and four wheelers
+                    for your next journey.
+                </p>
+
+                <!-- FILTER & SEARCH BAR -->
+                <div class="filter-bar" id="vehicleFilterBar" style="margin-top:28px;">
+                    <div class="search-box">
+                        <span aria-hidden="true">🔍</span>
+                        <input type="text" id="vehicleSearchInput"
+                               placeholder="Search vehicles by name, fuel, type, category..."
+                               aria-label="Search vehicles"
+                               style="border:none;background:transparent;outline:none;width:100%;font-size:0.85rem;color:inherit;">
+                    </div>
+                    <button type="button" class="filter active" data-filter="all">All Vehicles</button>
+                    <button type="button" class="filter" data-filter="four-wheeler">Cars &amp; SUVs</button>
+                    <button type="button" class="filter" data-filter="two-wheeler">Bikes &amp; Scooters</button>
+                    <button type="button" class="filter" data-filter="available">Available Only</button>
+                    <div id="filterCount" style="margin-left:auto;font-size:0.8rem;color:var(--muted);font-weight:600;"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TWO WHEELERS ================= -->
+
+        <section class="section soft">
+
+            <div class="container">
+
+                <p class="eyebrow">
+                    TWO WHEELERS
+                </p>
+
+                <h2>
+                    Bikes & Scooters
+                </h2>
+
+                <div class="vehicle-grid">
+
+
+                    <!-- HONDA ACTIVA 6G -->
+
+                    <article class="vehicle-card">
+
+                        <div class="vehicle-image">
+
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuS997YYKZJjvKm23V8PY88cJ63rkOzSKNgSsaLoSLB72A_Ks1UI9-tklSmhB0UNjUga31rjdc13hT48163VQrmrAsDnhAZHPItP1_VkSLoQ&s=10"
+                                alt="Honda Activa 6G">
+
+                        </div>
+
+                        <div class="vehicle-content">
+
+                            <div class="vehicle-top">
+
+                                <h3>
+                                    Honda Activa 6G
+                                </h3>
+
+                                <span class="status available">
+                                    Available
+                                </span>
+
+                            </div>
+
+                            <p class="vehicle-meta">
+                                Black • Automatic • 2 Seats
+                            </p>
+
+                            <p class="vehicle-meta">
+                                ⚙ Petrol &nbsp; ◉ City
+                            </p>
+
+                            <div class="vehicle-bottom">
+
+                                <strong class="vehicle-price">
+                                    ₹600/day
+                                </strong>
+
+                                <div class="card-actions" style="display:flex;align-items:center;gap:8px;">
+                                    <a href="vehicle-activa.html" class="details-link" style="color:var(--muted);font-weight:600;font-size:0.8rem;">Details</a>
+                                    <a href="booking.html?vehicle=activa" class="btn btn-primary btn-small btn-book" style="padding:4px 12px;font-size:0.75rem;min-height:30px;border-radius:7px;text-decoration:none;">Book →</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- ROYAL ENFIELD CLASSIC 350 -->
+
+                    <article class="vehicle-card">
+
+                        <div class="vehicle-image">
+
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLbVGsrKzpqnuxwSr47pNDWcIlHHfmD_IuTppd1cS1TA&s=10"
+                                alt="Royal Enfield Classic 350">
+
+                        </div>
+
+                        <div class="vehicle-content">
+
+                            <div class="vehicle-top">
+
+                                <h3>
+                                    Royal Enfield Classic 350
+                                </h3>
+
+                                <span class="status available">
+                                    Available
+                                </span>
+
+                            </div>
+
+                            <p class="vehicle-meta">
+                                Red • Manual • 2 Seats
+                            </p>
+
+                            <p class="vehicle-meta">
+                                ⚙ Petrol &nbsp; ◉ Touring
+                            </p>
+
+                            <div class="vehicle-bottom">
+
+                                <strong class="vehicle-price">
+                                    ₹1,200/day
+                                </strong>
+
+                                <div class="card-actions" style="display:flex;align-items:center;gap:8px;">
+                                    <a href="vehicle-classic350.html" class="details-link" style="color:var(--muted);font-weight:600;font-size:0.8rem;">Details</a>
+                                    <a href="booking.html?vehicle=classic350" class="btn btn-primary btn-small btn-book" style="padding:4px 12px;font-size:0.75rem;min-height:30px;border-radius:7px;text-decoration:none;">Book →</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- BAJAJ PULSAR 150 -->
+
+                    <article class="vehicle-card">
+
+                        <div class="vehicle-image">
+
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkx2eQw-52FQ-mP3P69xZqRB1dnzQ-Q9r5nMLjIT14kw&s=10"
+                                alt="Bajaj Pulsar 150">
+
+                        </div>
+
+                        <div class="vehicle-content">
+
+                            <div class="vehicle-top">
+
+                                <h3>
+                                    Bajaj Pulsar 150
+                                </h3>
+
+                                <span class="status maintenance">
+                                    Maintenance
+                                </span>
+
+                            </div>
+
+                            <p class="vehicle-meta">
+                                Black • Manual • 2 Seats
+                            </p>
+
+                            <p class="vehicle-meta">
+                                ⚙ Petrol &nbsp; ◉ City
+                            </p>
+
+                            <div class="vehicle-bottom">
+
+                                <strong class="vehicle-price">
+                                    ₹900/day
+                                </strong>
+
+                                <div class="card-actions">
+                                    <span class="unavailable">
+                                        Unavailable
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= FOUR WHEELERS ================= -->
+
+        <section class="section">
+
+            <div class="container">
+
+                <p class="eyebrow">
+                    FOUR WHEELERS
+                </p>
+
+                <h2>
+                    Cars & SUVs
+                </h2>
+
+                <div class="vehicle-grid">
+
+
+                    <!-- HYUNDAI CRETA -->
+
+                    <article class="vehicle-card">
+
+                        <div class="vehicle-image">
+
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBr1WaxU2tk9maYKuS9sV7C4PqP6IXW8NanLWbly4TLGK-bLK2nX8Zxv8ffhkNd6Qu-G0_lIZBGm0a8ByjI3kXZc487kGEQw3elFIdz7k_&s=10"
+                                alt="Hyundai Creta">
+
+                        </div>
+
+                        <div class="vehicle-content">
+
+                            <div class="vehicle-top">
+
+                                <h3>
+                                    Hyundai Creta
+                                </h3>
+
+                                <span class="status available">
+                                    Available
+                                </span>
+
+                            </div>
+
+                            <p class="vehicle-meta">
+                                White • Automatic • 5 Seats
+                            </p>
+
+                            <p class="vehicle-meta">
+                                ⚙ Petrol &nbsp; ◉ SUV
+                            </p>
+
+                            <div class="vehicle-bottom">
+
+                                <strong class="vehicle-price">
+                                    ₹3,000/day
+                                </strong>
+
+                                <div class="card-actions" style="display:flex;align-items:center;gap:8px;">
+                                    <a href="vehicle-creta.html" class="details-link" style="color:var(--muted);font-weight:600;font-size:0.8rem;">Details</a>
+                                    <a href="booking.html?vehicle=creta" class="btn btn-primary btn-small btn-book" style="padding:4px 12px;font-size:0.75rem;min-height:30px;border-radius:7px;text-decoration:none;">Book →</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- TATA NEXON -->
+
+                    <article class="vehicle-card">
+
+                        <div class="vehicle-image">
+
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXkyudQ-2uzS-_ljyeSu3aX2_tORaPBF7DflkxDke9Og&s=10"
+                                alt="Tata Nexon">
+
+                        </div>
+
+                        <div class="vehicle-content">
+
+                            <div class="vehicle-top">
+
+                                <h3>
+                                    Tata Nexon
+                                </h3>
+
+                                <span class="status booked">
+                                    Booked
+                                </span>
+
+                            </div>
+
+                            <p class="vehicle-meta">
+                                Blue • Manual • 5 Seats
+                            </p>
+
+                            <p class="vehicle-meta">
+                                ⚙ Petrol &nbsp; ◉ SUV
+                            </p>
+
+                            <div class="vehicle-bottom">
+
+                                <strong class="vehicle-price">
+                                    ₹2,500/day
+                                </strong>
+
+                                <div class="card-actions" style="display:flex;align-items:center;gap:8px;">
+                                    <a href="vehicle-nexon.html" class="details-link" style="color:var(--muted);font-weight:600;font-size:0.8rem;">Details</a>
+                                    <span class="status booked" style="font-size:0.72rem;padding:3px 8px;">Booked</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- MARUTI SWIFT -->
+
+                    <article class="vehicle-card">
+
+                        <div class="vehicle-image">
+
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ8pqmiGzJJjn2lzIwRV8ipG0G0XZWS8SdKEQV7uA5tA&s=10"
+                                alt="Maruti Swift">
+
+                        </div>
+
+                        <div class="vehicle-content">
+
+                            <div class="vehicle-top">
+
+                                <h3>
+                                    Maruti Swift
+                                </h3>
+
+                                <span class="status available">
+                                    Available
+                                </span>
+
+                            </div>
+
+                            <p class="vehicle-meta">
+                                White • Manual • 5 Seats
+                            </p>
+
+                            <p class="vehicle-meta">
+                                ⚙ Petrol &nbsp; ◉ Hatchback
+                            </p>
+
+                            <div class="vehicle-bottom">
+
+                                <strong class="vehicle-price">
+                                    ₹2,000/day
+                                </strong>
+
+                                <div class="card-actions" style="display:flex;align-items:center;gap:8px;">
+                                    <a href="vehicle-swift.html" class="details-link" style="color:var(--muted);font-weight:600;font-size:0.8rem;">Details</a>
+                                    <a href="booking.html?vehicle=swift" class="btn btn-primary btn-small btn-book" style="padding:4px 12px;font-size:0.75rem;min-height:30px;border-radius:7px;text-decoration:none;">Book →</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= DRIVERS ================= -->
+
+        <section class="section soft">
+
+            <div class="container">
+
+                <p class="eyebrow">
+                    DRIVERS
+                </p>
+
+                <h2>
+                    Rent a car with a driver
+                </h2>
+
+                <p class="lead">
+                    Prefer not to drive? Add a professional driver to any car booking
+                    for just ₹800/day.
+                </p>
+
+                <div class="driver-grid" id="driverGrid"></div>
+
+                <div class="driver-cta">
+                    <div>
+                        <h3>Driver service for cars</h3>
+                        <p>Choose your car, then select "With a driver" on the booking page.</p>
+                    </div>
+                    <a class="btn btn-primary" href="booking.html?driver=1">Book with a driver →</a>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="container footer-bottom">
+            © 2026 DriveEase
+        </div>
+
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="vehicles.js"></script>
+</body>
+
+</html>
