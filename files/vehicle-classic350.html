@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Enfield Classic 350 | DriveEase</title>
+    <meta name="description" content="Rent the Royal Enfield Classic 350 at DriveEase. Iconic touring motorcycle — ₹1,200/day. Available now.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('driveease_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            } catch(e) {}
+        })();
+    </script>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="index.html"><span class="brand-mark">D</span> DriveEase</a>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a class="active" href="vehicles.html">Vehicles</a>
+                <a href="booking.html">Booking</a>
+                <a href="profile.html">Profile</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+            <a class="btn btn-primary btn-small" id="navAuthBtn" href="login.html">Login</a>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <div class="container">
+            <p class="eyebrow">TWO WHEELER</p>
+            <h1>Royal Enfield Classic 350</h1>
+            <p>An iconic touring motorcycle with a thumping engine — built for long rides.</p>
+        </div>
+    </section>
+
+    <main>
+        <section class="section">
+            <div class="container details-grid">
+
+                <div>
+                    <div class="large-vehicle">
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLbVGsrKzpqnuxwSr47pNDWcIlHHfmD_IuTppd1cS1TA&s=10"
+                            alt="Royal Enfield Classic 350">
+                    </div>
+                </div>
+
+                <div class="details-copy">
+                    <span class="status available">Available</span>
+                    <h1>Royal Enfield Classic 350</h1>
+                    <p class="lead">The quintessential Indian touring bike. Classic looks, powerful engine, and an unforgettable ride experience.</p>
+
+                    <div class="detail-price">₹1,200<span style="font-size:1rem;font-weight:500;color:var(--muted)">/day</span></div>
+
+                    <div class="detail-list">
+                        <div><span>Type</span><strong>Two-wheeler / Motorcycle</strong></div>
+                        <div><span>Colour</span><strong>Red</strong></div>
+                        <div><span>Transmission</span><strong>Manual (5-speed)</strong></div>
+                        <div><span>Seating</span><strong>2 Seats</strong></div>
+                        <div><span>Fuel</span><strong>Petrol</strong></div>
+                        <div><span>Category</span><strong>Touring</strong></div>
+                        <div><span>Engine</span><strong>349 cc</strong></div>
+                        <div><span>Driver service</span><strong>Available (+₹800/day)</strong></div>
+                    </div>
+
+                    <div class="feature-list">
+                        <div>✓ Iconic heritage design</div>
+                        <div>✓ Dual-channel ABS</div>
+                        <div>✓ Comfortable for long rides</div>
+                        <div>✓ Saddlebag mounting points</div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;margin-bottom:0;">
+                        <a class="btn btn-primary" style="flex:1" href="booking.html?vehicle=classic350">Self-ride →</a>
+                        <a class="btn btn-outline" style="flex:1" href="booking.html?vehicle=classic350&driver=1">With driver →</a>
+                    </div>
+                    <a class="back-link" href="vehicles.html">← Back to all vehicles</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 DriveEase &nbsp;&bull;&nbsp; Vehicle Details
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        (() => {
+            const v = window.DriveEase?.VehicleStore?.getById('classic350');
+            if (v) {
+                const badge = document.querySelector('.status');
+                if (badge) {
+                    badge.className = `status ${v.status}`;
+                    badge.textContent = v.statusLabel;
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
